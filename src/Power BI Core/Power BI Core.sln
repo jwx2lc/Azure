@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerBI.Models", "PowerBI.M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerBI.Services", "PowerBI.Services\PowerBI.Services.csproj", "{1BD72203-F589-4EEF-BA1F-868FFE2954FA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerBI.Constants", "PowerBI.Constants\PowerBI.Constants.csproj", "{B264E162-9E68-453E-A8C7-CE183D168415}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{1BD72203-F589-4EEF-BA1F-868FFE2954FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1BD72203-F589-4EEF-BA1F-868FFE2954FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1BD72203-F589-4EEF-BA1F-868FFE2954FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B264E162-9E68-453E-A8C7-CE183D168415}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B264E162-9E68-453E-A8C7-CE183D168415}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B264E162-9E68-453E-A8C7-CE183D168415}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B264E162-9E68-453E-A8C7-CE183D168415}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

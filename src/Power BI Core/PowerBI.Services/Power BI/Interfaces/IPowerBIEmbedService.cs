@@ -8,6 +8,6 @@ namespace PowerBI.Services.Power_BI.Interfaces
 {
     public interface IPowerBIEmbedService
     {
-        Task<EmbedReport> GetEmbeddingAsync();
+        Task<EmbedReport> GetEmbeddedReportBySPNAsync();
     }
 }
