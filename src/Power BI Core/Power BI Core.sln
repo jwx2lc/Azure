@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerBI", "PowerBI\PowerBI.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerBI.Models", "PowerBI.Models\PowerBI.Models.csproj", "{50623759-86F2-434D-8838-F19AD25EAABE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerBI.Services", "PowerBI.Services\PowerBI.Services.csproj", "{1BD72203-F589-4EEF-BA1F-868FFE2954FA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{50623759-86F2-434D-8838-F19AD25EAABE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{50623759-86F2-434D-8838-F19AD25EAABE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{50623759-86F2-434D-8838-F19AD25EAABE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BD72203-F589-4EEF-BA1F-868FFE2954FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BD72203-F589-4EEF-BA1F-868FFE2954FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BD72203-F589-4EEF-BA1F-868FFE2954FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BD72203-F589-4EEF-BA1F-868FFE2954FA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -7,5 +7,6 @@ namespace PowerBI.Models.Embeddings
         public string EmbedToken { get; set; }
         public string EmbedUrl { get; set; }
         public string PowerBIReportId { get; set; }
+        public int LocationId { get; set; }
     }
 }
