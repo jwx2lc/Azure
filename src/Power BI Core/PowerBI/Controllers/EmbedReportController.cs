@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PowerBI.Models.Embeddings;
+using PowerBI.Services.Power_BI.Interfaces;
 
 namespace PowerBI.Controllers
 {
@@ -14,10 +15,12 @@ namespace PowerBI.Controllers
     public class EmbedReportController : ControllerBase
     {
         private readonly ILogger<EmbedReportController> _logger;
+        private readonly IPowerBIEmbedService _powerBIEmbedService;
 
-        public EmbedReportController(ILogger<EmbedReportController> logger)
+        public EmbedReportController(ILogger<EmbedReportController> logger, IPowerBIEmbedService powerBIEmbedService)
         {
-
+            _logger = logger;
+            _powerBIEmbedService = powerBIEmbedService;
         }
 
         [HttpGet]

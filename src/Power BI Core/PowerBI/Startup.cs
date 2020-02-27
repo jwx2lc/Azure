@@ -11,6 +11,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using PowerBI.Models.Configuration;
+using PowerBI.Services.Power_BI;
+using PowerBI.Services.Power_BI.Interfaces;
 
 namespace PowerBI
 {
@@ -33,6 +36,9 @@ namespace PowerBI
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
             });
 
+            services.Configure<PowerBIConfig>(this.Configuration.GetSection("PowerBIConfig"));
+
+            services.AddTransient(typeof(IPowerBIEmbedService), typeof(PowerBIEmbedService));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

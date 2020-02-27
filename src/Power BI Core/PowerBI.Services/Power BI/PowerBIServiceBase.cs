@@ -1,4 +1,5 @@
-﻿using Microsoft.IdentityModel.Clients.ActiveDirectory;
+﻿using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Microsoft.PowerBI.Api;
 using Microsoft.PowerBI.Api.Models;
 using Microsoft.Rest;
@@ -22,9 +23,9 @@ namespace PowerBI.Services.Power_BI
     {
         private readonly PowerBIConfig _powerBIConfig;
 
-        public PowerBIServiceBase(PowerBIConfig powerBIConfig)
+        public PowerBIServiceBase(IOptions<PowerBIConfig> powerBIConfig)
         {
-            _powerBIConfig = powerBIConfig;
+            _powerBIConfig = powerBIConfig.Value;
         }
 
         protected async Task<PowerBIClient> GetClientAsync(AuthenticationType authenticationType)
