@@ -9,10 +9,8 @@ namespace PowerBI.Services.Power_BI.Interfaces
 {
     public interface IPowerBIEmbedService
     {
-        Task<EmbedReport> GetEmbeddedReportAsync(AuthenticationType authenticationType, Guid groupId, Guid reportId);
+        Task<EmbedReport> GetEmbeddedReportAsync(AuthenticationType authenticationType, Guid reportId, Guid groupId);
 
-        Task<EmbedReport> GetEmbeddedReportAsync(AuthenticationType authenticationType, Guid groupId, Guid reportId, string userName);
-
-        Task<EmbedReport> GetEmbeddedReportAsync(AuthenticationType authenticationType, Guid groupId, Guid reportId, string userName, params string[] roles);
+        Task<EmbedReport> GetEmbeddedReportAsync(AuthenticationType authenticationType, Guid reportId, Guid groupId, string userName, string[] roles);
     }
 }

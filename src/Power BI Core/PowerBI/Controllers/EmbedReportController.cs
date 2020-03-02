@@ -7,26 +7,39 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PowerBI.Models.Embeddings;
 using PowerBI.Services.Power_BI.Interfaces;
+using PowerBI.Services.Reporting.Interfaces;
 
 namespace PowerBI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/reports")]
     [ApiController]
     public class EmbedReportController : ControllerBase
     {
         private readonly ILogger<EmbedReportController> _logger;
-        private readonly IPowerBIEmbedService _powerBIEmbedService;
+        private readonly IReportingService _reportingService;
 
-        public EmbedReportController(ILogger<EmbedReportController> logger, IPowerBIEmbedService powerBIEmbedService)
+        public EmbedReportController(ILogger<EmbedReportController> logger, IReportingService reportingService)
         {
             _logger = logger;
-            _powerBIEmbedService = powerBIEmbedService;
+            _reportingService = reportingService;
         }
 
         [HttpGet]
-        public async Task<EmbedReport> GetAsync()
+        [Route("selection")]
+        public async Task<Dictionary<string, string>> GetReportsAsync()
         {
-            return new EmbedReport();
+            return await _reportingService.GetReportsAsync();
+        }
+
+        [HttpGet]
+        [Route("embed/{reportId}")]
+        public async Task<EmbedReport> GetEmbedReportAsync(int reportId)
+        {
+            //call to database to get info about the report
+            string reportGuid = "";
+            string groupGuid = "";
+
+            return await _reportingService.GetEmbedReportAsync(reportId);
         }
     }
 }

@@ -2,18 +2,24 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Autofac;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using PowerBI.Data.Reporting;
 using PowerBI.Models.Configuration;
+using PowerBI.Services;
 using PowerBI.Services.Power_BI;
 using PowerBI.Services.Power_BI.Interfaces;
+using PowerBI.Services.Reporting;
+using PowerBI.Services.Reporting.Interfaces;
 
 namespace PowerBI
 {
@@ -29,16 +35,22 @@ namespace PowerBI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers().AddControllersAsServices();
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Power BI Embedding API - .Net Core", Version = "v1" });
             });
 
             services.Configure<PowerBIConfig>(this.Configuration.GetSection("PowerBIConfig"));
 
-            services.AddTransient(typeof(IPowerBIEmbedService), typeof(PowerBIEmbedService));
+            services.AddDbContext<ReportingContext>(options =>
+                options.UseSqlServer(Configuration["ConnectionStrings:Reporting"]));
+        }
+
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            builder.RegisterModule<ServiceModule>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -67,7 +79,7 @@ namespace PowerBI
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Power BI Embedding API - .Net Core V1");
             });
         }
     }

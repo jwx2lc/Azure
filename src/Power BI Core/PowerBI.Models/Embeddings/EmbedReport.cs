@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace PowerBI.Models.Embeddings
 {
@@ -8,5 +9,6 @@ namespace PowerBI.Models.Embeddings
         public string EmbedUrl { get; set; }
         public string PowerBIReportId { get; set; }
         public int LocationId { get; set; }
+        public List<string> Errors { get; set; }
     }
 }

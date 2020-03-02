@@ -46,7 +46,7 @@ namespace PowerBI.Services.Power_BI
 
         private async Task<TokenCredentials> GetAccessTokenByMasterAsync()
         {
-            var oauthEndpoint = new Uri(_powerBIConfig.AuthorityUrl);
+            var oauthEndpoint = new Uri(_powerBIConfig.MasterOAuth2Url);
 
             using (var client = new HttpClient())
             {

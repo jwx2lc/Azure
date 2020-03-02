@@ -18,47 +18,31 @@ namespace PowerBI.Services.Power_BI
 
         }
 
-        public async Task<EmbedReport> GetEmbeddedReportAsync(AuthenticationType authenticationType, Guid groupId, Guid reportId)
+        public async Task<EmbedReport> GetEmbeddedReportAsync(AuthenticationType authenticationType, Guid reportId, Guid groupId)
         {
-            using var client = await GetClientAsync(authenticationType);
-
-            var reportRequest = await client.Reports.GetReportInGroupWithHttpMessagesAsync(groupId, reportId);
-
-            var report = reportRequest.Body;
-
-            var requestParams = new GenerateTokenRequest(TokenAccessLevel.View);
-
-            var response = await client.Reports.GenerateTokenInGroupWithHttpMessagesAsync(groupId, reportId, requestParams);
-
-            var embedToken = response.Body;
-            
-            return new EmbedReport() { PowerBIReportId = report.Id.ToString(), EmbedUrl = report.EmbedUrl, EmbedToken = embedToken.Token };
-        }
-
-        public async Task<EmbedReport> GetEmbeddedReportAsync(AuthenticationType authenticationType, Guid groupId, Guid reportId, string userName)
-        {
-            using var client = await GetClientAsync(AuthenticationType.ServicePrincipal);
-
-            var reportRequest = await client.Reports.GetReportInGroupWithHttpMessagesAsync(groupId, reportId);
-
-            var report = reportRequest.Body;
-
-            var effectiveIdentity = new EffectiveIdentity()
+            try
             {
-                Username = userName,
-                Datasets = new List<string>() { report.DatasetId }
-            };
+                using var client = await GetClientAsync(authenticationType);
 
-            var requestParams = new GenerateTokenRequest(TokenAccessLevel.View, effectiveIdentity);
+                var reportRequest = await client.Reports.GetReportInGroupWithHttpMessagesAsync(groupId, reportId);
 
-            var response = await client.Reports.GenerateTokenInGroupWithHttpMessagesAsync(groupId, reportId, requestParams);
+                var report = reportRequest.Body;
 
-            var embedToken = response.Body;
+                var requestParams = new GenerateTokenRequest(TokenAccessLevel.View);
 
-            return new EmbedReport() { PowerBIReportId = report.Id.ToString(), EmbedUrl = report.EmbedUrl, EmbedToken = embedToken.Token };
+                var response = await client.Reports.GenerateTokenInGroupWithHttpMessagesAsync(groupId, reportId, requestParams);
+
+                var embedToken = response.Body;
+
+                return new EmbedReport() { PowerBIReportId = report.Id.ToString(), EmbedUrl = report.EmbedUrl, EmbedToken = embedToken.Token };
+            }
+            catch(Exception e)
+            {
+                return new EmbedReport() { Errors = new List<string> { e.Message } };
+            }
         }
 
-        public async Task<EmbedReport> GetEmbeddedReportAsync(AuthenticationType authenticationType, Guid groupId, Guid reportId, string userName, params string[] roles)
+        public async Task<EmbedReport> GetEmbeddedReportAsync(AuthenticationType authenticationType, Guid reportId, Guid groupId, string userName, string[] roles)
         {
             using var client = await GetClientAsync(AuthenticationType.ServicePrincipal);
 

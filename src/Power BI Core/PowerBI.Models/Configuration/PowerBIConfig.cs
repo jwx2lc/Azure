@@ -9,6 +9,7 @@ namespace PowerBI.Models.Configuration
         public string ApiUrl { get; set; }
         public string AuthorityUrl { get; set; }
         public string MasterClientId { get; set; }
+        public string MasterOAuth2Url { get; set; }
         public string MasterPassword { get; set; }
         public string MasterUsername { get; set; }
         public string ResourceUrl { get; set; }
