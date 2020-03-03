@@ -55,8 +55,8 @@ namespace PowerBI.Services.Power_BI
                     new KeyValuePair<string, string>("resource", _powerBIConfig.ResourceUrl),
                     new KeyValuePair<string, string>("client_id", _powerBIConfig.MasterClientId),
                     new KeyValuePair<string, string>("grant_type", "password"),
-                    new KeyValuePair<string, string>("username", _powerBIConfig.MasterUsername),
-                    new KeyValuePair<string, string>("password", _powerBIConfig.MasterPassword),
+                    new KeyValuePair<string, string>("username", _powerBIConfig.MasterId),
+                    new KeyValuePair<string, string>("password", _powerBIConfig.MasterKey),
                     new KeyValuePair<string, string>("scope", "openid"),
                 }));
 

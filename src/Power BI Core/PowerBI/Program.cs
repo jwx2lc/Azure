@@ -26,14 +26,9 @@ namespace PowerBI
         Host.CreateDefaultBuilder(args)
             .ConfigureAppConfiguration((context, config) =>
             {
-                if (context.HostingEnvironment.IsProduction())
+                if (1==1)//context.HostingEnvironment.IsDevelopment())
                 {
                     var builtConfig = config.Build();
-
-                    var azureServiceTokenProvider = new AzureServiceTokenProvider();
-                    var keyVaultClient = new KeyVaultClient(
-                        new KeyVaultClient.AuthenticationCallback(
-                            azureServiceTokenProvider.KeyVaultTokenCallback));
 
                     var prefixSection = builtConfig.GetSection("AzureKeyVaultConfig:Prefix");
 
@@ -45,10 +40,10 @@ namespace PowerBI
                     }
 
                     config.AddAzureKeyVault(
-                        new AzureKeyVaultConfigurationOptions()
-                        { Client = keyVaultClient,
-                            Manager = new PrefixKeyVaultSecretManager(prefixes)
-                        });
+                        $"https://{builtConfig["AzureKeyVaultConfig:VaultName"]}.vault.azure.net/",
+                        builtConfig["AzureKeyVaultConfig:ClientId"],
+                        builtConfig["AzureKeyVaultConfig:ClientKey"],
+                        new PrefixKeyVaultSecretManager(prefixes));
                 }
             })
             .ConfigureWebHostDefaults(webBuilder =>

@@ -10,8 +10,8 @@ namespace PowerBI.Models.Configuration
         public string AuthorityUrl { get; set; }
         public string MasterClientId { get; set; }
         public string MasterOAuth2Url { get; set; }
-        public string MasterPassword { get; set; }
-        public string MasterUsername { get; set; }
+        public string MasterKey { get; set; }
+        public string MasterId { get; set; }
         public string ResourceUrl { get; set; }
         public string SPNClientId { get; set; }
         public string SPNClientKey { get; set; }
