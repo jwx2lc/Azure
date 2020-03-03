@@ -24,27 +24,44 @@ namespace PowerBI.Services.Reporting
 
         public async Task<Dictionary<string, string>> GetReportsAsync()
         {
-            return new Dictionary<string, string> { { "1", "Test" } };
+            return GetReports().ToDictionary(r => r.ReportId.ToString(), r => r.DisplayName);
+            //return new Dictionary<string, string> { { "1", "2016 Election" } };
         }
 
         public async Task<EmbedReport> GetEmbedReportAsync(int reportId)
         {
-            var report = new Report() { };
-                //_reportingContext.Reports.SingleOrDefault(r => r.ReportId == reportId);
+            var report = GetReport(reportId);
+            //_reportingContext.Reports.SingleOrDefault(r => r.ReportId == reportId);
 
-            var embedReport = await _powerBIEmbedService.GetEmbeddedReportAsync(AuthenticationType.ServicePrincipal, new Guid(report.PowerBIGroupId), new Guid(report.PowerBIGroupId));
+            var embedReport = await _powerBIEmbedService.GetEmbeddedReportAsync(AuthenticationType.MasterAccount, new Guid(report.PowerBIReportId), new Guid(report.PowerBIGroupId));
 
             return embedReport;
         }
 
         public async Task<EmbedReport> GetEmbedReportAsync(int reportId, string userName)
         {
-            var report = new Report() {  };
-                //_reportingContext.Reports.SingleOrDefault(r => r.ReportId == reportId);
+            var report = GetReport(reportId);
+            //_reportingContext.Reports.SingleOrDefault(r => r.ReportId == reportId);
 
-            var embedReport = await _powerBIEmbedService.GetEmbeddedReportAsync(AuthenticationType.ServicePrincipal, new Guid(report.PowerBIGroupId), new Guid(report.PowerBIGroupId), userName, report.ReportRoles.Select(rr => rr.RoleName).ToArray());
+            var embedReport = await _powerBIEmbedService.GetEmbeddedReportAsync(AuthenticationType.MasterAccount, new Guid(report.PowerBIGroupId), new Guid(report.PowerBIGroupId));//, userName, report.ReportRoles.Select(rr => rr.RoleName).ToArray());
 
             return embedReport;
+        }
+
+        private Report GetReport(int reportId)
+        {
+            
+            return GetReports().SingleOrDefault(r => r.ReportId == reportId);
+        }
+
+        private List<Report> GetReports()
+        {
+            var reports = new List<Report>()
+            {
+                new Report { ReportId = 1, DisplayName = "2016 Election", ReportName = "2016 Election", PowerBIGroupId = "0cdab667-3b3f-4a88-8c21-4eb0416470ef", PowerBIReportId = "398dab5c-5355-4128-9807-3fa9dd136f10", ReportRoles = new List<ReportRole>() }
+            };
+
+            return reports;
         }
     }
 }

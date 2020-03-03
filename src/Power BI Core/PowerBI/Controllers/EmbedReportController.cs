@@ -35,11 +35,21 @@ namespace PowerBI.Controllers
         [Route("embed/{reportId}")]
         public async Task<EmbedReport> GetEmbedReportAsync(int reportId)
         {
-            //call to database to get info about the report
-            string reportGuid = "";
-            string groupGuid = "";
-
             return await _reportingService.GetEmbedReportAsync(reportId);
+        }
+
+        [HttpGet]
+        [Route("embed/spn/{reportId}/{username?}")]
+        public async Task<EmbedReport> GetEmbedReportSPNAsync(int reportId, string userName = "None")
+        {
+            return userName == "None" ? await _reportingService.GetEmbedReportAsync(reportId) : await _reportingService.GetEmbedReportAsync(reportId, userName);
+        }
+
+        [HttpGet]
+        [Route("embed/master/{reportId}/{userName?}")]
+        public async Task<EmbedReport> GetEmbedReportMasterAsync(int reportId, string userName = "None")
+        {
+            return userName == "None" ? await _reportingService.GetEmbedReportAsync(reportId) : await _reportingService.GetEmbedReportAsync(reportId, userName);
         }
     }
 }
