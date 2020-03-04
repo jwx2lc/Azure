@@ -64,5 +64,6 @@
     <Build Include="Reporting\Tables\Report.sql" />
     <Build Include="Security\Reporting.sql" />
     <Build Include="Reporting\Tables\ReportRole.sql" />
+    <Build Include="Reporting\Tables\ReportVisual.sql" />
   </ItemGroup>
 </Project>

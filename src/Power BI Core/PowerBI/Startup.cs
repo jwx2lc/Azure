@@ -1,25 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Autofac;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using PowerBI.Data.Reporting;
+using PowerBI.Data.ReportingDB;
 using PowerBI.Models.Configuration;
 using PowerBI.Services;
-using PowerBI.Services.Power_BI;
-using PowerBI.Services.Power_BI.Interfaces;
-using PowerBI.Services.Reporting;
-using PowerBI.Services.Reporting.Interfaces;
 
 namespace PowerBI
 {
@@ -45,7 +34,7 @@ namespace PowerBI
             services.Configure<PowerBIConfig>(this.Configuration.GetSection("PowerBIConfig"));
 
             services.AddDbContext<ReportingContext>(options =>
-                options.UseSqlServer(Configuration["ConnectionStrings:Reporting"]));
+                options.UseSqlServer(Configuration.GetConnectionString("Reporting")));
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
