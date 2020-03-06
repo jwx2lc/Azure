@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -26,6 +27,7 @@ namespace PowerBI.Controllers
 
         [HttpGet]
         [Route("selection")]
+        [Authorize]
         public async Task<Dictionary<string, string>> GetReportsAsync()
         {
             return await _reportingService.GetReportsAsync();

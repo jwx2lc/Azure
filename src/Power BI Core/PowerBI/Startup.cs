@@ -1,14 +1,19 @@
 using Autofac;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using PowerBI.Data.ReportingDB;
 using PowerBI.Models.Configuration;
 using PowerBI.Services;
+using PowerBI.Services.Extensions;
+using System.Collections.Generic;
+using System.Text;
 
 namespace PowerBI
 {
@@ -24,14 +29,28 @@ namespace PowerBI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = Configuration["Authentication:Audience"],
+                        ValidAudience = Configuration["Authentication:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Authentication:JwtEncryptionKey"]))
+                    };
+                });
+
             services.AddControllers().AddControllersAsServices();
 
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Power BI Embedding API - .Net Core", Version = "v1" });
-            });
+            services.AddSwaggerDocumentation();
 
             services.Configure<PowerBIConfig>(this.Configuration.GetSection("PowerBIConfig"));
+
+            services.Configure<AuthenticationConfig>(this.Configuration.GetSection("Authentication"));
 
             services.AddDbContext<ReportingContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("Reporting")));
@@ -49,6 +68,7 @@ namespace PowerBI
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseAuthentication();
 
             app.UseHttpsRedirection();
 
@@ -56,20 +76,25 @@ namespace PowerBI
 
             app.UseAuthorization();
 
+            
+
+            app.Use((httpContext, next) => // For the oauth2-less!
+            {
+                if (httpContext.Request.Headers.ContainsKey("X-Authorization"))
+                {
+                    httpContext.Request.Headers.Add("Authorization", httpContext.Request.Headers["X-Authorization"]);
+                }
+
+                return next();
+            });
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
-            app.UseSwagger();
-
-            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
-            // specifying the Swagger JSON endpoint.
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Power BI Embedding API - .Net Core V1");
-            });
+            app.UseSwaggerDocumentation();
         }
     }
 }

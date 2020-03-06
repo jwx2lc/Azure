@@ -30,8 +30,21 @@ namespace PowerBI.Services.Reporting
         {
             var report = _reportingContext.Report.SingleOrDefault(r => r.ReportId == reportId);
 
-            var embedReport = report == null ? new EmbedReport() { Errors = new List<string> { "Report not found!" } }
-                : await _powerBIEmbedService.GetEmbeddedReportAsync(AuthenticationType.MasterAccount, report.PowerBIGroupId, report.PowerBIGroupId);//, userName, report.ReportRoles.Select(rr => rr.RoleName).ToArray());
+            var embedReport = new EmbedReport();
+
+            if (report == null)
+            {
+                embedReport.Errors = new List<string> { "Report not found!" };
+            }
+            else
+            {
+                embedReport = await _powerBIEmbedService.GetEmbeddedReportAsync(AuthenticationType.MasterAccount, report.PowerBIGroupId, report.PowerBIGroupId);//, userName, report.ReportRoles.Select(rr => rr.RoleName).ToArray());
+
+                foreach (var viz in report.ReportVisual)
+                {
+                    embedReport.Visuals.Add(new EmbedVisual() { VisualName = viz.VisualName, PageName = viz.PageName, SortOrder = viz.SortOrder });
+                }
+            }
 
             return embedReport;
         }

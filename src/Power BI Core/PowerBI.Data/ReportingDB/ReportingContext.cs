@@ -21,11 +21,6 @@ namespace PowerBI.Data.ReportingDB
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=JON\\JW;Database=Reporting;Integrated Security=True;");
-            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -72,7 +67,7 @@ namespace PowerBI.Data.ReportingDB
 
             modelBuilder.Entity<ReportVisual>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(d => d.ReportVisualId);
 
                 entity.ToTable("ReportVisual", "Reporting");
 
@@ -82,7 +77,7 @@ namespace PowerBI.Data.ReportingDB
                     .IsRequired()
                     .HasMaxLength(50);
 
-                entity.Property(e => e.ReportVisualId).ValueGeneratedOnAdd();
+                //entity.Property(e => e.ReportVisualId).ValueGeneratedOnAdd();
 
                 entity.Property(e => e.UpdateDate).HasColumnType("datetime");
 
