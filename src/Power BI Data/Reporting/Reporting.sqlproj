@@ -63,7 +63,10 @@
   <ItemGroup>
     <Build Include="Reporting\Tables\Report.sql" />
     <Build Include="Security\Reporting.sql" />
-    <Build Include="Reporting\Tables\ReportRole.sql" />
     <Build Include="Reporting\Tables\ReportVisual.sql" />
+    <Build Include="Reporting\Tables\UserRole.sql" />
+    <Build Include="Reporting\Tables\User.sql" />
+    <Build Include="Reporting\Tables\Role.sql" />
+    <Build Include="Reporting\Tables\ReportSecurityRole.sql" />
   </ItemGroup>
 </Project>
