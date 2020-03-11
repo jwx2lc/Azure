@@ -5,7 +5,9 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using PowerBI.Models.Authentication;
 using PowerBI.Models.Configuration;
+using PowerBI.Services.Authentication.Interfaces;
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -16,11 +18,13 @@ namespace PowerBI.Controllers
     [ApiController]
     public class AuthenticationController : Controller
     {
-        private AuthenticationConfig _authConfig;
+        private readonly AuthenticationConfig _authConfig;
+        private readonly IAppAuthenticationService _appAuthenticationService;
 
-        public AuthenticationController(IOptions<AuthenticationConfig> authConfig)
+        public AuthenticationController(IAppAuthenticationService appAuthenticationService , IOptions<AuthenticationConfig> authConfig)
         {
             _authConfig = authConfig.Value;
+            _appAuthenticationService = appAuthenticationService;
         }
 
         [AllowAnonymous]
@@ -46,7 +50,7 @@ namespace PowerBI.Controllers
 
             var token = new JwtSecurityToken(_authConfig.Audience,
               _authConfig.Audience,
-              null,
+              new List<Claim> { new Claim(ClaimTypes.Name, userInfo.Username) },
               expires: DateTime.Now.AddMinutes(120),
               signingCredentials: credentials);
 
@@ -57,9 +61,7 @@ namespace PowerBI.Controllers
         {
             UserModel user = null;
 
-            //Validate the User Credentials  
-            //Demo Purpose, I have Passed HardCoded User Information  
-            user = login;
+            user = _appAuthenticationService.AuthenticateUser(login.Username);
 
             return user;
         }

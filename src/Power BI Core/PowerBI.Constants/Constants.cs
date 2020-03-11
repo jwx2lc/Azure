@@ -2,7 +2,9 @@
 
 namespace PowerBI.Constants
 {
-    public class Constants
+    public static class Constants
     {
+        public static string PowerBIAccessToken = "PowerBIAccessToken";
+        public static string PowerBIAccessTokenUpdateTime = "PowerBIAccessTokenUpdateTime";
     }
 }

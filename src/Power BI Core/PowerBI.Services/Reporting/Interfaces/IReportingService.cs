@@ -8,9 +8,7 @@ namespace PowerBI.Services.Reporting.Interfaces
 {
     public interface IReportingService
     {
-        Task<Dictionary<string, string>> GetReportsAsync();
-
-        Task<EmbedReport> GetEmbedReportAsync(int reportId);
+        Task<Dictionary<string, string>> GetReportsAsync(string userName);
 
         Task<EmbedReport> GetEmbedReportAsync(int reportId, string userName);
     }

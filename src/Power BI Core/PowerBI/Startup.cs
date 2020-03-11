@@ -44,6 +44,8 @@ namespace PowerBI
                     };
                 });
 
+            services.AddMemoryCache();
+
             services.AddControllers().AddControllersAsServices();
 
             services.AddSwaggerDocumentation();

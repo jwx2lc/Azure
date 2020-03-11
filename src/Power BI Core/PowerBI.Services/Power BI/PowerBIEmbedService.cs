@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Options;
 using Microsoft.PowerBI.Api.Models;
 using PowerBI.Models.Configuration;
 using PowerBI.Models.Embeddings;
@@ -13,7 +14,7 @@ namespace PowerBI.Services.Power_BI
 {
     public class PowerBIEmbedService : PowerBIServiceBase, IPowerBIEmbedService
     {
-        public PowerBIEmbedService(IOptions<PowerBIConfig> powerBIConfig): base(powerBIConfig)
+        public PowerBIEmbedService(IMemoryCache memoryCache, IOptions<PowerBIConfig> powerBIConfig): base(memoryCache, powerBIConfig)
         {
 
         }

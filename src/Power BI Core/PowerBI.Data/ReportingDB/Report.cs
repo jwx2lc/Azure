@@ -7,8 +7,9 @@ namespace PowerBI.Data.ReportingDB
     {
         public Report()
         {
-            ReportRole = new HashSet<ReportRole>();
+            ReportSecurityRole = new HashSet<ReportSecurityRole>();
             ReportVisual = new HashSet<ReportVisual>();
+            UserRoleReport = new HashSet<UserRoleReport>();
         }
 
         public int ReportId { get; set; }
@@ -19,7 +20,8 @@ namespace PowerBI.Data.ReportingDB
         public DateTime CreateDate { get; set; }
         public DateTime UpdateDate { get; set; }
 
-        public virtual ICollection<ReportRole> ReportRole { get; set; }
+        public virtual ICollection<ReportSecurityRole> ReportSecurityRole { get; set; }
         public virtual ICollection<ReportVisual> ReportVisual { get; set; }
+        public virtual ICollection<UserRoleReport> UserRoleReport { get; set; }
     }
 }

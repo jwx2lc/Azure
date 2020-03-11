@@ -1,4 +1,6 @@
 ﻿using Autofac;
+using PowerBI.Services.Authentication;
+using PowerBI.Services.Authentication.Interfaces;
 using PowerBI.Services.Power_BI;
 using PowerBI.Services.Power_BI.Interfaces;
 using PowerBI.Services.Reporting;
@@ -16,6 +18,8 @@ namespace PowerBI.Services
             builder.RegisterType<PowerBIEmbedService>().As<IPowerBIEmbedService>();
 
             builder.RegisterType<ReportingService>().As<IReportingService>();
+
+            builder.RegisterType<AppAuthenticationService>().As<IAppAuthenticationService>();
         }
     }
 }
